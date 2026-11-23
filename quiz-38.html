@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latihan Lingkungan Kerja dan Kesehatan Mental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: one centered card on a deep green field, gold accents, answer buttons stacked on phones. */
+:root{
+  --green:#50152E; --green-2:#8B2948; --gold:#F4D98B; --cream:#FFF9EB; --ink:#352A30;
+  --ok:#2e9e4f; --no:#d63a3a;
+  --ar:'Noto Naskh Arabic','Amiri','Traditional Arabic',serif;
+  --ui:'Nunito',system-ui,sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--green);color:var(--cream);font-family:var(--ui)}
+body{display:flex;justify-content:center;padding:20px 16px 40px}
+main{width:100%;max-width:760px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+h1{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:.02em;color:var(--gold)}
+.score{font-weight:800;font-variant-numeric:tabular-nums}
+.bar{height:10px;border-radius:99px;background:var(--green-2);overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .35s}
+.card{background:var(--cream);color:var(--ink);border-radius:22px;padding:22px 18px;border:4px solid var(--gold)}
+.kind{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--green-2);margin:0 0 10px}
+.q{display:flex;align-items:center;gap:14px;justify-content:center;margin:6px 0 4px}
+.ar{font-family:var(--ar);font-weight:700;direction:rtl;line-height:1.5}
+.q .ar{font-size:clamp(2.1rem,8vw,3.4rem);text-align:center}
+.hint{text-align:center;font-weight:800;font-size:1.1rem;margin:0 0 18px;color:var(--green-2)}
+.snd{flex:none;width:56px;height:56px;border-radius:50%;border:0;background:var(--green);color:var(--gold);font-size:1.5rem;cursor:pointer}
+.snd:focus-visible,.opt:focus-visible,.next:focus-visible{outline:4px solid var(--gold);outline-offset:3px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+.opt{position:relative;border:4px solid var(--green);background:var(--gold);color:var(--ink);border-radius:18px;padding:14px 10px;cursor:pointer;min-height:84px;display:flex;align-items:center;justify-content:center}
+.opt .ar{font-size:1.9rem;text-align:center}
+.opt.lat{font-weight:800;font-size:1.15rem;text-align:center}
+.opt:hover:not(:disabled){transform:translateY(-2px)}
+.opt:disabled{cursor:default}
+.badge{position:absolute;top:-16px;inset-inline-end:-10px;width:44px;height:44px;border-radius:50%;border:3px solid #fff;color:#fff;font-size:1.4rem;font-weight:800;display:none;align-items:center;justify-content:center}
+.opt.ok .badge{display:flex;background:var(--ok)}
+.opt.no .badge{display:flex;background:var(--no)}
+.opt.reveal{border-color:var(--ok)}
+.fb{text-align:center;font-weight:800}
+.next{display:none;margin:14px auto 0;border:0;border-radius:99px;background:var(--green);color:var(--gold);font:800 1.05rem var(--ui);padding:12px 28px;cursor:pointer}
+.end{text-align:center}
+.end h2{margin:6px 0;font-size:1.6rem}
+.end .big{font-size:3rem;font-weight:800;font-variant-numeric:tabular-nums}
+.pic{width:190px;max-width:60%;margin:0 auto 6px;background:#fff;border:3px solid var(--gold);border-radius:18px;padding:6px}
+.pic svg{width:100%;height:auto;display:block}
+.chk{display:flex;gap:8px;justify-content:center;align-items:center;font-weight:800;margin:10px 0 4px}
+.fb{min-height:1.6em;margin:16px 0 0}
+.expl{margin-top:8px;font-weight:600;background:#fff;border-radius:14px;padding:10px 12px;border:2px solid var(--gold)}
+.expl .ar{font-size:1.6rem}
+.mini{border:0;border-radius:50%;width:34px;height:34px;background:var(--green);color:var(--gold);cursor:pointer;margin-inline-start:6px}
+.rev{list-style:none;padding:0;margin:0 0 6px;text-align:start;display:grid;gap:6px}
+.rev .ar{font-size:1.4rem}
+.emo{font-size:4.2rem;text-align:center;line-height:1.1;margin:0 0 6px}
+.bank,.ans{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;direction:rtl;min-height:62px;padding:10px;border-radius:16px}
+.ans{background:#fff;border:3px dashed var(--green);margin-bottom:12px}
+.tok{font-family:var(--ar);font-weight:700;font-size:1.6rem;border:3px solid var(--green);background:var(--gold);color:var(--ink);border-radius:14px;padding:6px 14px;cursor:pointer}
+.tok:disabled{opacity:.35}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mt button{border:3px solid var(--green);background:var(--gold);color:var(--ink);border-radius:14px;padding:12px 8px;min-height:64px;cursor:pointer;font:800 1rem var(--ui)}
+.mt button.ar{font:700 1.5rem var(--ar)}
+.mt .sel{outline:4px solid var(--green)}
+.mt .done{background:var(--ok);color:#fff;border-color:var(--ok);cursor:default}
+.mt .bad{background:#f4b8b8;border-color:var(--no)}
+.note{font-size:.85rem;opacity:.8;text-align:center;margin-top:16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.back{color:var(--gold);font-weight:800;text-decoration:none;font-size:.9rem;border:2px solid var(--gold);border-radius:99px;padding:4px 12px}
+</style>
+</head>
+<body>
+<main>
+  <header><a href="index.html#quizzes" class="back">← Menu · القائمة</a><h1>تدريب · Latihan</h1><div class="score" id="score">0 / 0</div></header>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  <section class="card" id="card" aria-live="polite"></section>
+  <p class="note">Tombol 🔊 membaca kalimat memakai suara perangkat; jika tidak ada suara Arab, tombol tidak berbunyi.</p>
+</main>
+<script>
+var T={mean:"Pilih arti · اختر المعنى",tr:"Pilih bentuk Arab · اختر العبارة",dl:"Jawab dialog · رد الحوار",fill:"Lengkapi kalimat · أكمل",listen:"Dengarkan · استمع",order:"Susun kalimat · رتب الكلمات",match:"Pasangkan · طابق",sit:"Situasi · الموقف"};
+function mc(n,kind,o){o.n=n;o.kind=kind;o.type='mc';return o}
+var DATA=[{"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "الضَّغْطُ الدَّائِمُ فِي الْعَمَلِ قَدْ يَقُودُ إِلَى الْإِرْهَاقِ النَّفْسِيِّ.", "hint": "Apa artinya?", "opts": ["Tekanan terus-menerus di tempat kerja bisa menyebabkan kelelahan mental.", "Manajer harus memperhatikan keadaan karyawannya dan tidak membebani mereka melebihi kemampuan.", "Tim yang anggotanya merasa aman mengutarakan pendapat akan berhasil."], "arOpts": false, "full": "الضَّغْطُ الدَّائِمُ فِي الْعَمَلِ قَدْ يَقُودُ إِلَى الْإِرْهَاقِ النَّفْسِيِّ.", "id": "Tekanan terus-menerus di tempat kerja bisa menyebabkan kelelahan mental.", "n": 1}, {"type": "mc", "kind": "Dengarkan · استمع", "ar": "", "listen": "مِنَ الْمُهِمِّ أَنْ نَفْصِلَ بَيْنَ وَقْتِ الْعَمَلِ وَوَقْتِ الرَّاحَةِ.", "emo": "🎧", "hint": "Tekan 🔊 lalu pilih yang kamu dengar.", "opts": ["مِنَ الْمُهِمِّ أَنْ نَفْصِلَ بَيْنَ وَقْتِ الْعَمَلِ وَوَقْتِ الرَّاحَةِ.", "التَّقْدِيرُ الصَّادِقُ مِنَ الْمُدِيرِ يُغَيِّرُ شُعُورَ الْمُوَظَّفِ بِعَمَلِهِ.", "رَغْمَ كَثْرَةِ الْمَهَامِّ، حَاوَلْتُ أَنْ أَحْتَفِظَ بِهُدُوئِي وَأُرَتِّبَ أَوْلَوِيَّاتِي."], "arOpts": true, "full": "مِنَ الْمُهِمِّ أَنْ نَفْصِلَ بَيْنَ وَقْتِ الْعَمَلِ وَوَقْتِ الرَّاحَةِ.", "id": "Penting memisahkan antara waktu kerja dan waktu istirahat.", "n": 2}, {"type": "mc", "kind": "Pilih bentuk Arab · اختر العبارة", "ar": "", "hint": "Manajer harus memperhatikan keadaan karyawannya dan tidak membebani mereka melebihi kemampuan.", "opts": ["عَلَى الْمُدِيرِ أَنْ يُرَاعِيَ ظُرُوفَ مُوَظَّفِيهِ وَلَا يُحَمِّلَهُمْ فَوْقَ طَاقَتِهِمْ.", "يَنْجَحُ الْفَرِيقُ الَّذِي يَشْعُرُ أَعْضَاؤُهُ بِالْأَمَانِ فِي التَّعْبِيرِ عَنْ آرَائِهِمْ.", "لَا تَتَرَدَّدْ فِي طَلَبِ الْمُسَاعَدَةِ حِينَ تُحِسُّ بِأَنَّكَ لَا تَسْتَطِيعُ التَّحَمُّلَ."], "arOpts": true, "full": "عَلَى الْمُدِيرِ أَنْ يُرَاعِيَ ظُرُوفَ مُوَظَّفِيهِ وَلَا يُحَمِّلَهُمْ فَوْقَ طَاقَتِهِمْ.", "id": "Manajer harus memperhatikan keadaan karyawannya dan tidak membebani mereka melebihi kemampuan.", "n": 3}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "أَشْعُرُ بِأَنَّ جُهْدِي لَا يُقَدَّرُ فِي هَذِهِ الشَّرِكَةِ.", "hint": "Apa artinya?", "opts": ["Saya merasa usaha saya tidak dihargai di perusahaan ini.", "Wajar jika kita merasa cemas sebelum tugas besar apa pun.", "Manajer harus memperhatikan keadaan karyawannya dan tidak membebani mereka melebihi kemampuan."], "arOpts": false, "full": "أَشْعُرُ بِأَنَّ جُهْدِي لَا يُقَدَّرُ فِي هَذِهِ الشَّرِكَةِ.", "id": "Saya merasa usaha saya tidak dihargai di perusahaan ini.", "n": 4}, {"type": "order", "kind": "Susun kalimat · رتب الكلمات", "hint": "Bekerja di lingkungan positif meningkatkan kebahagiaan dan kreativitas.", "words": ["الْعَمَلُ", "فِي", "بِيئَةٍ", "إِيجَابِيَّةٍ", "يَزِيدُ", "السَّعَادَةَ", "وَالْإِبْدَاعَ."], "full": "الْعَمَلُ فِي بِيئَةٍ إِيجَابِيَّةٍ يَزِيدُ السَّعَادَةَ وَالْإِبْدَاعَ.", "id": "Bekerja di lingkungan positif meningkatkan kebahagiaan dan kreativitas.", "n": 5}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "وَضَعْتُ حُدُودًا وَاضِحَةً بَيْنَ حَيَاتِي الْمِهْنِيَّةِ وَالشَّخْصِيَّةِ.", "hint": "Apa artinya?", "opts": ["Saya menetapkan batas jelas antara kehidupan profesional dan pribadi.", "Karyawan terkadang butuh orang yang mendengarnya tanpa menghakimi.", "Meskipun tugas banyak, saya berusaha tetap tenang dan menata prioritas."], "arOpts": false, "full": "وَضَعْتُ حُدُودًا وَاضِحَةً بَيْنَ حَيَاتِي الْمِهْنِيَّةِ وَالشَّخْصِيَّةِ.", "id": "Saya menetapkan batas jelas antara kehidupan profesional dan pribadi.", "n": 6}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "اسْتَقَلْتُ مِنْ عَمَلِي لِأَنَّ الْبِيئَةَ كَانَتْ سَامَّةً.", "hint": "Apa artinya?", "opts": ["Saya mengundurkan diri dari pekerjaan karena lingkungannya beracun.", "Istirahat singkat memulihkan fokus dan meningkatkan produktivitas kita.", "Jangan ragu meminta bantuan ketika kamu merasa tidak sanggup menanggung."], "arOpts": false, "full": "اسْتَقَلْتُ مِنْ عَمَلِي لِأَنَّ الْبِيئَةَ كَانَتْ سَامَّةً.", "id": "Saya mengundurkan diri dari pekerjaan karena lingkungannya beracun.", "n": 7}, {"type": "mc", "kind": "Pilih bentuk Arab · اختر العبارة", "ar": "", "hint": "Karyawan terkadang butuh orang yang mendengarnya tanpa menghakimi.", "opts": ["يَحْتَاجُ الْمُوَظَّفُ أَحْيَانًا إِلَى مَنْ يَسْمَعُهُ دُونَ أَنْ يَحْكُمَ عَلَيْهِ.", "حِينَ أَنْتَهِي مِنَ الْعَمَلِ أُغْلِقُ الْحَاسُوبَ وَلَا أَفْتَحُ الْبَرِيدَ حَتَّى الصَّبَاحِ.", "عَلَى الْمُدِيرِ أَنْ يُرَاعِيَ ظُرُوفَ مُوَظَّفِيهِ وَلَا يُحَمِّلَهُمْ فَوْقَ طَاقَتِهِمْ."], "arOpts": true, "full": "يَحْتَاجُ الْمُوَظَّفُ أَحْيَانًا إِلَى مَنْ يَسْمَعُهُ دُونَ أَنْ يَحْكُمَ عَلَيْهِ.", "id": "Karyawan terkadang butuh orang yang mendengarnya tanpa menghakimi.", "n": 8}, {"type": "mc", "kind": "Dengarkan · استمع", "ar": "", "listen": "مِنَ الطَّبِيعِيِّ أَنْ نَشْعُرَ بِالْقَلَقِ قَبْلَ أَيِّ مُهِمَّةٍ كَبِيرَةٍ.", "emo": "🎧", "hint": "Tekan 🔊 lalu pilih yang kamu dengar.", "opts": ["مِنَ الطَّبِيعِيِّ أَنْ نَشْعُرَ بِالْقَلَقِ قَبْلَ أَيِّ مُهِمَّةٍ كَبِيرَةٍ.", "تُسَاعِدُنِي الرِّيَاضَةُ عَلَى تَصْرِيفِ التَّوَتُّرِ الَّذِي أَجْمَعُهُ فِي الْعَمَلِ.", "عَلَى الْمُدِيرِ أَنْ يُرَاعِيَ ظُرُوفَ مُوَظَّفِيهِ وَلَا يُحَمِّلَهُمْ فَوْقَ طَاقَتِهِمْ."], "arOpts": true, "full": "مِنَ الطَّبِيعِيِّ أَنْ نَشْعُرَ بِالْقَلَقِ قَبْلَ أَيِّ مُهِمَّةٍ كَبِيرَةٍ.", "id": "Wajar jika kita merasa cemas sebelum tugas besar apa pun.", "n": 9}, {"type": "match", "kind": "Pasangkan · طابق", "hint": "Pasangkan kalimat dengan artinya.", "pairs": [["الِاسْتِرَاحَاتُ الْقَصِيرَةُ تُجَدِّدُ تَرْكِيزَنَا وَتَرْفَعُ إِنْتَاجِيَّتَنَا.", "Istirahat singkat memulihkan fokus dan meningkatkan produktivitas kita."], ["مِنَ الطَّبِيعِيِّ أَنْ نَشْعُرَ بِالْقَلَقِ قَبْلَ أَيِّ مُهِمَّةٍ كَبِيرَةٍ.", "Wajar jika kita merasa cemas sebelum tugas besar apa pun."], ["يَنْبَغِي أَنْ تَتَوَفَّرَ لِلْمُوَظَّفِينَ مَسَاحَةٌ آمِنَةٌ لِلْحَدِيثِ عَنْ ضُغُوطِهِمْ.", "Karyawan sebaiknya memiliki ruang aman untuk membicarakan tekanan mereka."], ["الضَّغْطُ الدَّائِمُ فِي الْعَمَلِ قَدْ يَقُودُ إِلَى الْإِرْهَاقِ النَّفْسِيِّ.", "Tekanan terus-menerus di tempat kerja bisa menyebabkan kelelahan mental."]], "full": "الِاسْتِرَاحَاتُ الْقَصِيرَةُ تُجَدِّدُ تَرْكِيزَنَا وَتَرْفَعُ إِنْتَاجِيَّتَنَا. — مِنَ الطَّبِيعِيِّ أَنْ نَشْعُرَ بِالْقَلَقِ قَبْلَ أَيِّ مُهِمَّةٍ كَبِيرَةٍ. — يَنْبَغِي أَنْ تَتَوَفَّرَ لِلْمُوَظَّفِينَ مَسَاحَةٌ آمِنَةٌ لِلْحَدِيثِ عَنْ ضُغُوطِهِمْ. — الضَّغْطُ الدَّائِمُ فِي الْعَمَلِ قَدْ يَقُودُ إِلَى الْإِرْهَاقِ النَّفْسِيِّ.", "id": "Istirahat singkat memulihkan fokus dan meningkatkan produktivitas kita. / Wajar jika kita merasa cemas sebelum tugas besar apa pun. / Karyawan sebaiknya memiliki ruang aman untuk membicarakan tekanan mereka. / Tekanan terus-menerus di tempat kerja bisa menyebabkan kelelahan mental.", "n": 10}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "يَنْجَحُ الْفَرِيقُ الَّذِي يَشْعُرُ أَعْضَاؤُهُ بِالْأَمَانِ فِي التَّعْبِيرِ عَنْ آرَائِهِمْ.", "hint": "Apa artinya?", "opts": ["Tim yang anggotanya merasa aman mengutarakan pendapat akan berhasil.", "Wajar jika kita merasa cemas sebelum tugas besar apa pun.", "Saya merasa usaha saya tidak dihargai di perusahaan ini."], "arOpts": false, "full": "يَنْجَحُ الْفَرِيقُ الَّذِي يَشْعُرُ أَعْضَاؤُهُ بِالْأَمَانِ فِي التَّعْبِيرِ عَنْ آرَائِهِمْ.", "id": "Tim yang anggotanya merasa aman mengutarakan pendapat akan berhasil.", "n": 11}, {"type": "mc", "kind": "Dengarkan · استمع", "ar": "", "listen": "رَغْمَ كَثْرَةِ الْمَهَامِّ، حَاوَلْتُ أَنْ أَحْتَفِظَ بِهُدُوئِي وَأُرَتِّبَ أَوْلَوِيَّاتِي.", "emo": "🎧", "hint": "Tekan 🔊 lalu pilih yang kamu dengar.", "opts": ["رَغْمَ كَثْرَةِ الْمَهَامِّ، حَاوَلْتُ أَنْ أَحْتَفِظَ بِهُدُوئِي وَأُرَتِّبَ أَوْلَوِيَّاتِي.", "أَشْعُرُ بِأَنَّ جُهْدِي لَا يُقَدَّرُ فِي هَذِهِ الشَّرِكَةِ.", "عَلَى الْمُدِيرِ أَنْ يُرَاعِيَ ظُرُوفَ مُوَظَّفِيهِ وَلَا يُحَمِّلَهُمْ فَوْقَ طَاقَتِهِمْ."], "arOpts": true, "full": "رَغْمَ كَثْرَةِ الْمَهَامِّ، حَاوَلْتُ أَنْ أَحْتَفِظَ بِهُدُوئِي وَأُرَتِّبَ أَوْلَوِيَّاتِي.", "id": "Meskipun tugas banyak, saya berusaha tetap tenang dan menata prioritas.", "n": 12}, {"type": "mc", "kind": "Pilih bentuk Arab · اختر العبارة", "ar": "", "hint": "Jangan ragu meminta bantuan ketika kamu merasa tidak sanggup menanggung.", "opts": ["لَا تَتَرَدَّدْ فِي طَلَبِ الْمُسَاعَدَةِ حِينَ تُحِسُّ بِأَنَّكَ لَا تَسْتَطِيعُ التَّحَمُّلَ.", "الِاسْتِرَاحَاتُ الْقَصِيرَةُ تُجَدِّدُ تَرْكِيزَنَا وَتَرْفَعُ إِنْتَاجِيَّتَنَا.", "الْعَمَلُ فِي بِيئَةٍ إِيجَابِيَّةٍ يَزِيدُ السَّعَادَةَ وَالْإِبْدَاعَ."], "arOpts": true, "full": "لَا تَتَرَدَّدْ فِي طَلَبِ الْمُسَاعَدَةِ حِينَ تُحِسُّ بِأَنَّكَ لَا تَسْتَطِيعُ التَّحَمُّلَ.", "id": "Jangan ragu meminta bantuan ketika kamu merasa tidak sanggup menanggung.", "n": 13}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "تُسَاعِدُنِي الرِّيَاضَةُ عَلَى تَصْرِيفِ التَّوَتُّرِ الَّذِي أَجْمَعُهُ فِي الْعَمَلِ.", "hint": "Apa artinya?", "opts": ["Olahraga membantu saya melepaskan ketegangan yang saya kumpulkan di tempat kerja.", "Meskipun tugas banyak, saya berusaha tetap tenang dan menata prioritas.", "Bekerja di lingkungan positif meningkatkan kebahagiaan dan kreativitas."], "arOpts": false, "full": "تُسَاعِدُنِي الرِّيَاضَةُ عَلَى تَصْرِيفِ التَّوَتُّرِ الَّذِي أَجْمَعُهُ فِي الْعَمَلِ.", "id": "Olahraga membantu saya melepaskan ketegangan yang saya kumpulkan di tempat kerja.", "n": 14}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "التَّقْدِيرُ الصَّادِقُ مِنَ الْمُدِيرِ يُغَيِّرُ شُعُورَ الْمُوَظَّفِ بِعَمَلِهِ.", "hint": "Apa artinya?", "opts": ["Penghargaan tulus dari manajer mengubah perasaan karyawan terhadap pekerjaannya.", "Istirahat singkat memulihkan fokus dan meningkatkan produktivitas kita.", "Meskipun tugas banyak, saya berusaha tetap tenang dan menata prioritas."], "arOpts": false, "full": "التَّقْدِيرُ الصَّادِقُ مِنَ الْمُدِيرِ يُغَيِّرُ شُعُورَ الْمُوَظَّفِ بِعَمَلِهِ.", "id": "Penghargaan tulus dari manajer mengubah perasaan karyawan terhadap pekerjaannya.", "n": 15}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "يَنْبَغِي أَنْ تَتَوَفَّرَ لِلْمُوَظَّفِينَ مَسَاحَةٌ آمِنَةٌ لِلْحَدِيثِ عَنْ ضُغُوطِهِمْ.", "hint": "Apa artinya?", "opts": ["Karyawan sebaiknya memiliki ruang aman untuk membicarakan tekanan mereka.", "Saya mengundurkan diri dari pekerjaan karena lingkungannya beracun.", "Karyawan terkadang butuh orang yang mendengarnya tanpa menghakimi."], "arOpts": false, "full": "يَنْبَغِي أَنْ تَتَوَفَّرَ لِلْمُوَظَّفِينَ مَسَاحَةٌ آمِنَةٌ لِلْحَدِيثِ عَنْ ضُغُوطِهِمْ.", "id": "Karyawan sebaiknya memiliki ruang aman untuk membicarakan tekanan mereka.", "n": 16}, {"type": "mc", "kind": "Pilih arti · اختر المعنى", "ar": "حِينَ أَنْتَهِي مِنَ الْعَمَلِ أُغْلِقُ الْحَاسُوبَ وَلَا أَفْتَحُ الْبَرِيدَ حَتَّى الصَّبَاحِ.", "hint": "Apa artinya?", "opts": ["Ketika selesai bekerja, saya menutup komputer dan tidak membuka surel sampai pagi.", "Saya merasa usaha saya tidak dihargai di perusahaan ini.", "Wajar jika kita merasa cemas sebelum tugas besar apa pun."], "arOpts": false, "full": "حِينَ أَنْتَهِي مِنَ الْعَمَلِ أُغْلِقُ الْحَاسُوبَ وَلَا أَفْتَحُ الْبَرِيدَ حَتَّى الصَّبَاحِ.", "id": "Ketika selesai bekerja, saya menutup komputer dan tidak membuka surel sampai pagi.", "n": 17}, {"type": "mc", "kind": "Pilih bentuk Arab · اختر العبارة", "ar": "", "hint": "Kelelahan kerja muncul ketika kita merasa usaha kita tak berujung dan tidak berbuah.", "opts": ["يَظْهَرُ الِاحْتِرَاقُ الْوَظِيفِيُّ حِينَ نَشْعُرُ بِأَنَّ جُهْدَنَا لَا يَنْتَهِي وَلَا يُثْمِرُ.", "رَغْمَ كَثْرَةِ الْمَهَامِّ، حَاوَلْتُ أَنْ أَحْتَفِظَ بِهُدُوئِي وَأُرَتِّبَ أَوْلَوِيَّاتِي.", "اسْتَقَلْتُ مِنْ عَمَلِي لِأَنَّ الْبِيئَةَ كَانَتْ سَامَّةً."], "arOpts": true, "full": "يَظْهَرُ الِاحْتِرَاقُ الْوَظِيفِيُّ حِينَ نَشْعُرُ بِأَنَّ جُهْدَنَا لَا يَنْتَهِي وَلَا يُثْمِرُ.", "id": "Kelelahan kerja muncul ketika kita merasa usaha kita tak berujung dan tidak berbuah.", "n": 18}];
+var card=document.getElementById('card'),shuffleQ=true,list,i,score,answered,wrong;
+function shuffle(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function speak(t){try{if(!window.speechSynthesis||!t)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+function setBar(v){document.getElementById('bar').style.width=(v/list.length*100)+'%'}
+function home(){
+  list=DATA;i=0;score=0;
+  document.getElementById('score').textContent='';document.getElementById('bar').style.width='0';
+  card.innerHTML='<div class="end"><p class="kind">Selamat datang · أهلًا بك</p><h2>Latihan: Lingkungan Kerja dan Kesehatan Mental</h2><p class="hint" style="margin-bottom:6px">بيئة العمل والصحة النفسية · 18 soal dengan beragam tipe: pilihan, dengar, susun kata, dan pasangkan.</p><label class="chk"><input type="checkbox" id="rnd" checked> Acak urutan soal</label><button class="next" id="go" style="display:block">Mulai · ابدأ</button></div>';
+  document.getElementById('go').onclick=function(){shuffleQ=document.getElementById('rnd').checked;begin(DATA)};
+}
+function begin(items){list=shuffleQ?shuffle(items):items.slice();i=0;score=0;wrong=[];show()}
+function head(q){return '<p class="kind">'+q.kind+' · '+(i+1)+'/'+list.length+'</p>'}
+function show(){
+  answered=false;var q=list[i];
+  setBar(i);document.getElementById('score').textContent=score+' / '+i;
+  if(q.type==='order')return showOrder(q);
+  if(q.type==='match')return showMatch(q);
+  var idx=shuffle(q.opts.map(function(_,k){return k}));
+  var h=head(q);
+  if(q.emo)h+='<div class="emo" aria-hidden="true">'+q.emo+'</div>';
+  if(q.ar||q.listen)h+='<div class="q"><button class="snd" id="snd" aria-label="Putar suara">🔊</button>'+(q.ar?'<span class="ar">'+q.ar+'</span>':'')+'</div>';
+  h+='<p class="hint">'+q.hint+'</p><div class="opts">';
+  idx.forEach(function(k){h+='<button class="opt'+(q.arOpts?'':' lat')+'" data-k="'+k+'"><span class="'+(q.arOpts?'ar':'')+'">'+q.opts[k]+'</span><span class="badge" aria-hidden="true"></span></button>'});
+  h+='</div><div class="fb" id="fb"></div><button class="next" id="next">Lanjut ←</button>';
+  card.innerHTML=h;
+  var sb=document.getElementById('snd');if(sb)sb.onclick=function(){speak(q.listen||q.ar)};
+  Array.prototype.forEach.call(card.querySelectorAll('.opt'),function(b){b.onclick=function(){pick(b,q)}});
+  document.getElementById('next').onclick=advance;
+}
+function advance(){i++;i<list.length?show():finish()}
+function result(q,right){
+  if(right)score++;else wrong.push(q);
+  var fb=document.getElementById('fb');
+  fb.innerHTML='<div style="color:'+(right?'#1f7a3c':'#b02a2a')+'">'+(right?'Benar! أحسنت':'Belum tepat.')+'</div><div class="expl"><span class="ar">'+q.full+'</span><br>'+q.id+' <button class="mini" id="snd2" aria-label="Putar suara">🔊</button></div>';
+  document.getElementById('snd2').onclick=function(){speak(q.full.split(' — ')[0])};
+  document.getElementById('score').textContent=score+' / '+(i+1);setBar(i+1);
+  var n=document.getElementById('next');n.style.display='block';n.textContent=(i+1<list.length)?'Lanjut ←':'Lihat hasil';n.focus();
+}
+function pick(b,q){
+  if(answered)return;answered=true;
+  var k=+b.getAttribute('data-k'),right=(k===q.ans||(q.ans===undefined&&k===0));
+  Array.prototype.forEach.call(card.querySelectorAll('.opt'),function(o){o.disabled=true;if(+o.getAttribute('data-k')===0&&!right)o.classList.add('reveal')});
+  b.classList.add(right?'ok':'no');b.querySelector('.badge').textContent=right?'✓':'✕';
+  result(q,right);
+}
+function showOrder(q){
+  var bank=shuffle(q.words.map(function(w,k){return {w:w,k:k}})),chosen=[];
+  var h=head(q)+'<div class="q"><button class="snd" id="snd" aria-label="Putar suara">🔊</button></div><p class="hint">'+q.hint+'</p><div class="ans" id="ans" aria-label="Jawabanmu"></div><div class="bank" id="bank"></div><div class="fb" id="fb"></div><button class="next" id="chk" style="display:block">Periksa · تحقق</button><button class="next" id="next">Lanjut ←</button>';
+  card.innerHTML=h;
+  document.getElementById('snd').onclick=function(){speak(q.full)};
+  function draw(){
+    var a=document.getElementById('ans'),b=document.getElementById('bank');a.innerHTML='';b.innerHTML='';
+    chosen.forEach(function(t,p){var e=document.createElement('button');e.className='tok';e.textContent=t.w;e.onclick=function(){if(answered)return;chosen.splice(p,1);bank.push(t);draw()};a.appendChild(e)});
+    bank.forEach(function(t,p){var e=document.createElement('button');e.className='tok';e.textContent=t.w;e.disabled=answered;e.onclick=function(){bank.splice(p,1);chosen.push(t);draw()};b.appendChild(e)});
+  }
+  draw();
+  document.getElementById('next').onclick=advance;
+  document.getElementById('chk').onclick=function(){
+    if(answered||chosen.length!==q.words.length)return;answered=true;
+    var right=chosen.every(function(t,p){return t.k===p});
+    document.getElementById('ans').style.borderColor=right?'#2e9e4f':'#d63a3a';
+    document.getElementById('chk').style.display='none';draw();result(q,right);
+  };
+}
+function showMatch(q){
+  var L=shuffle(q.pairs.map(function(p,k){return {t:p[0],k:k}})),R=shuffle(q.pairs.map(function(p,k){return {t:p[1],k:k}})),sel=null,left=q.pairs.length,mist=0;
+  var h=head(q)+'<p class="hint">'+q.hint+'</p><div class="mt"><div style="display:grid;gap:10px" id="cl"></div><div style="display:grid;gap:10px" id="cr"></div></div><div class="fb" id="fb"></div><button class="next" id="next">Lanjut ←</button>';
+  card.innerHTML=h;
+  document.getElementById('next').onclick=advance;
+  function mk(col,arr,isAr){arr.forEach(function(x){var b=document.createElement('button');b.textContent=x.t;if(isAr)b.className='ar';b.onclick=function(){
+      if(b.classList.contains('done'))return;
+      if(isAr){speak(x.t);Array.prototype.forEach.call(document.querySelectorAll('#cl button'),function(e){e.classList.remove('sel')});b.classList.add('sel');sel={k:x.k,b:b};return}
+      if(!sel)return;
+      if(sel.k===x.k){sel.b.classList.remove('sel');sel.b.classList.add('done');b.classList.add('done');sel=null;left--;
+        if(!left){answered=true;result(q,mist===0)}}
+      else{mist++;b.classList.add('bad');setTimeout(function(){b.classList.remove('bad')},500)}
+    };col.appendChild(b)})}
+  mk(document.getElementById('cl'),L,true);mk(document.getElementById('cr'),R,false);
+}
+function finish(){
+  var pct=Math.round(score/list.length*100);
+  var h='<div class="end"><p class="kind">Hasil · النتيجة</p><div class="big">'+score+' / '+list.length+'</div><h2>'+(pct>=80?'Mumtaz! ممتاز':pct>=50?'Bagus, terus berlatih':'Ayo coba lagi')+'</h2>';
+  if(wrong.length){h+='<p class="hint" style="margin:10px 0 6px">Perlu diulang:</p><ul class="rev">';wrong.forEach(function(q){h+='<li><span class="ar">'+q.full+'</span> — '+q.id+'</li>'});h+='</ul><button class="next" id="redo" style="display:block">Ulangi yang salah · أعد الأخطاء</button>'}
+  h+='<button class="next" id="again" style="display:block">Mulai dari awal · من البداية</button></div>';
+  card.innerHTML=h;var r=document.getElementById('redo');if(r)r.onclick=function(){begin(wrong.slice())};
+  document.getElementById('again').onclick=home;document.getElementById('bar').style.width='100%';
+}
+var AUDIO={"الضَّغْطُ الدَّائِمُ فِي الْعَمَلِ قَدْ يَقُودُ إِلَى الْإِرْهَاقِ النَّفْسِيِّ.": "2913", "": "2913a", "مِنَ الْمُهِمِّ أَنْ نَفْصِلَ بَيْنَ وَقْتِ الْعَمَلِ وَوَقْتِ الرَّاحَةِ.": "2914", "عَلَى الْمُدِيرِ أَنْ يُرَاعِيَ ظُرُوفَ مُوَظَّفِيهِ وَلَا يُحَمِّلَهُمْ فَوْقَ طَاقَتِهِمْ.": "2915", "أَشْعُرُ بِأَنَّ جُهْدِي لَا يُقَدَّرُ فِي هَذِهِ الشَّرِكَةِ.": "2916", "الْعَمَلُ فِي بِيئَةٍ إِيجَابِيَّةٍ يَزِيدُ السَّعَادَةَ وَالْإِبْدَاعَ.": "2917", "وَضَعْتُ حُدُودًا وَاضِحَةً بَيْنَ حَيَاتِي الْمِهْنِيَّةِ وَالشَّخْصِيَّةِ.": "2918", "اسْتَقَلْتُ مِنْ عَمَلِي لِأَنَّ الْبِيئَةَ كَانَتْ سَامَّةً.": "2919", "يَحْتَاجُ الْمُوَظَّفُ أَحْيَانًا إِلَى مَنْ يَسْمَعُهُ دُونَ أَنْ يَحْكُمَ عَلَيْهِ.": "2920", "مِنَ الطَّبِيعِيِّ أَنْ نَشْعُرَ بِالْقَلَقِ قَبْلَ أَيِّ مُهِمَّةٍ كَبِيرَةٍ.": "2921", "الِاسْتِرَاحَاتُ الْقَصِيرَةُ تُجَدِّدُ تَرْكِيزَنَا وَتَرْفَعُ إِنْتَاجِيَّتَنَا.": "2922", "يَنْجَحُ الْفَرِيقُ الَّذِي يَشْعُرُ أَعْضَاؤُهُ بِالْأَمَانِ فِي التَّعْبِيرِ عَنْ آرَائِهِمْ.": "2923", "رَغْمَ كَثْرَةِ الْمَهَامِّ، حَاوَلْتُ أَنْ أَحْتَفِظَ بِهُدُوئِي وَأُرَتِّبَ أَوْلَوِيَّاتِي.": "2924", "لَا تَتَرَدَّدْ فِي طَلَبِ الْمُسَاعَدَةِ حِينَ تُحِسُّ بِأَنَّكَ لَا تَسْتَطِيعُ التَّحَمُّلَ.": "2925", "تُسَاعِدُنِي الرِّيَاضَةُ عَلَى تَصْرِيفِ التَّوَتُّرِ الَّذِي أَجْمَعُهُ فِي الْعَمَلِ.": "2926", "التَّقْدِيرُ الصَّادِقُ مِنَ الْمُدِيرِ يُغَيِّرُ شُعُورَ الْمُوَظَّفِ بِعَمَلِهِ.": "2927", "يَنْبَغِي أَنْ تَتَوَفَّرَ لِلْمُوَظَّفِينَ مَسَاحَةٌ آمِنَةٌ لِلْحَدِيثِ عَنْ ضُغُوطِهِمْ.": "2928", "حِينَ أَنْتَهِي مِنَ الْعَمَلِ أُغْلِقُ الْحَاسُوبَ وَلَا أَفْتَحُ الْبَرِيدَ حَتَّى الصَّبَاحِ.": "2929", "يَظْهَرُ الِاحْتِرَاقُ الْوَظِيفِيُّ حِينَ نَشْعُرُ بِأَنَّ جُهْدَنَا لَا يَنْتَهِي وَلَا يُثْمِرُ.": "2930"},curA=null;
+function speak(t){try{if(curA){curA.pause();curA=null}if(window.speechSynthesis)speechSynthesis.cancel();if(!t)return;
+ function tts(){try{if(!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+ var k=AUDIO[t];if(!k){tts();return}
+ var a=new Audio('audio/'+k+'.mp3');curA=a;a.playbackRate=.95;a.onerror=tts;var p=a.play();if(p&&p.catch)p.catch(tts)}catch(e){}}
+home();
+</script>
+</body>
+</html>
