@@ -28,7 +28,7 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .logo{background:none!important;border:0!important}.logo img{width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 4px #DEB953}
 .badge{position:absolute;left:1650px;top:20px;width:190px;text-align:center}
 .badge .c{width:190px;height:160px;border-radius:26px 26px 95px 95px;background:radial-gradient(#a8405f,var(--gd));border:6px solid var(--gold);color:#fff;font-weight:700;font-size:86px;display:flex;align-items:center;justify-content:center;padding-bottom:26px}
-.badge .p{margin:-42px auto 0;width:170px;border-radius:30px;background:var(--gl);color:var(--gd);font-weight:700;font-size:34px;padding:2px 0;position:relative;border:4px solid #fff8}
+.badge .p{margin:-42px auto 0;width:186px;border-radius:30px;background:var(--gl);color:var(--gd);font-weight:700;font-size:29px;padding:2px 0;position:relative;border:4px solid #fff8}
 .ribbon{position:absolute;left:612px;top:176px;width:696px;height:70px;border-radius:12px;background:linear-gradient(#F4D98B,#D6A63C);border:4px solid #fff4c8;color:var(--g);font-weight:700;font-size:30px;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 0 rgba(80,21,46,.25)}
 /* nav */
 .nbtn{position:absolute;top:928px;height:92px;border-radius:46px;background:linear-gradient(var(--g),var(--gd));border:5px solid var(--gold);color:#fff;font-weight:700;font-size:32px;display:flex;align-items:center;gap:16px;padding:0 26px;box-shadow:0 6px 0 rgba(80,21,46,.35)}
@@ -85,13 +85,13 @@ button{font:inherit;cursor:pointer;border:0;background:none}
 .gi .ti{font-size:12.5px;font-weight:700;margin-top:3px;max-width:100%;text-align:center;color:#dfe6e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gi.on .ti{color:var(--gl)}
 /* hub */
-.hcard{position:absolute;top:330px;width:620px;height:520px;border-radius:56px;background:linear-gradient(#ffffff,#f3f1e8);border:7px solid var(--gold);box-shadow:0 12px 0 rgba(80,21,46,.3),0 0 0 14px rgba(139,41,72,.92);text-align:center;color:var(--g);transition:transform .15s}
+ .hcard{position:absolute;top:330px;width:500px;height:520px;border-radius:56px;background:linear-gradient(#ffffff,#f3f1e8);border:7px solid var(--gold);box-shadow:0 12px 0 rgba(80,21,46,.3),0 0 0 14px rgba(139,41,72,.92);text-align:center;color:var(--g);transition:transform .15s}
 .hcard:hover{transform:translateY(-8px)}
 .hcard .ic{margin:44px auto 10px;width:190px;height:190px;border-radius:50%;background:radial-gradient(#a8405f,var(--gd));border:7px solid var(--gold);display:flex;align-items:center;justify-content:center}
 .hcard .ic svg{width:110px;height:110px}
-.hcard .a{font-family:'Amiri',serif;font-size:90px;font-weight:700;line-height:1.2}
-.hcard .i{font-weight:700;font-size:46px;letter-spacing:2px}
-.hcard .s{font-weight:600;font-size:28px;color:#352116;margin-top:6px}
+.hcard .a{font-family:'Amiri',serif;font-size:78px;font-weight:700;line-height:1.2}
+.hcard .i{font-weight:700;font-size:40px;letter-spacing:2px}
+.hcard .s{font-weight:600;font-size:24px;color:#352116;margin-top:6px}
 #hint{position:absolute;left:0;right:0;top:930px;text-align:center;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.5);font-weight:600;font-size:30px}
 #warn{position:absolute;left:240px;top:912px;width:1290px;text-align:center;color:#8a2b00;font-weight:700;font-size:24px;z-index:6}
 .fade{animation:fade .35s ease}
@@ -185,8 +185,9 @@ function render(keep){
   let h='';
   if(S.v==='hub'){
     h=head('B2<small>Pilih menu</small>','Level B2 · Mahir — Pilih menu belajar')+
-    `<a class="hcard" style="left:290px" href="#lessons"><div class="ic"><svg viewBox="0 0 64 64"><path d="M8 14q12-4 24 4q12-8 24-4v38q-12-4-24 4q-12-8-24-4z" fill="#fff"/><path d="M32 18v38" stroke="#076756" stroke-width="3"/></svg></div><div class="a">الدروس</div><div class="i">PELAJARAN</div><div class="s">Slide kalimat + Latin + arti + audio</div></a>
-     <a class="hcard" style="left:1010px" href="#quizzes"><div class="ic"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="#fff"/><path d="M19 33l9 9 18-20" stroke="#076756" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="a">الاختبارات</div><div class="i">KUIS</div><div class="s">Latihan interaktif per topik</div></a>
+    `<a class="hcard" style="left:130px" href="#lessons"><div class="ic"><svg viewBox="0 0 64 64"><path d="M8 14q12-4 24 4q12-8 24-4v38q-12-4-24 4q-12-8-24-4z" fill="#fff"/><path d="M32 18v38" stroke="#076756" stroke-width="3"/></svg></div><div class="a">الدروس</div><div class="i">PELAJARAN</div><div class="s">Slide kalimat + Latin + arti + audio</div></a>
+     <a class="hcard" style="left:690px" href="#quizzes"><div class="ic"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="#fff"/><path d="M19 33l9 9 18-20" stroke="#076756" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="a">الاختبارات</div><div class="i">KUIS</div><div class="s">Latihan interaktif per topik</div></a>
+     <a class="hcard" style="left:1250px" href="games.html"><div class="ic"><svg viewBox="0 0 64 64"><rect x="6" y="18" width="52" height="30" rx="15" fill="#fff"/><path d="M19 27v12M13 33h12" stroke="#352116" stroke-width="4" stroke-linecap="round"/><circle cx="42" cy="30" r="3.5" fill="#D6A63C"/><circle cx="49" cy="37" r="3.5" fill="#D6A63C"/></svg></div><div class="a">الألعاب</div><div class="i">PERMAINAN</div><div class="s">4 game interaktif</div></a>
      <div id="hint">Listen • Repeat • Understand • Use</div>`;
   }else if(S.v==='lessons'||S.v==='quizzes'){
     const q=S.v==='quizzes';
@@ -211,7 +212,7 @@ function render(keep){
       it.v.forEach((v,q)=>{
         const id='sp'+q,key=it.n+(q?'f':'');
         autoList.push([key,v.ar,id]);
-        cols+=`<div class="col ${two?'':'one'}">${v.l?`<span class="lab">${v.l}</span>`:''}<div class="ar" style="font-size:${arSize(v.ar,!two)}px">${v.ar}</div><div class="tr" style="font-size:${trSize(v.tr)}px">${esc(v.tr)}</div>${speaker(id,key,v.ar)}</div>`;
+        cols+=`<div class="col ${two?'':'one'}">${v.l?`<span class="lab">${v.l}</span>`:''}<div class="ar" style="font-size:${arSize(v.ar,!two)}px">${v.ar}</div><div class="tr" style="font-size:${two?Math.min(28,trSize(v.tr)):trSize(v.tr)}px">${esc(v.tr)}</div>${speaker(id,key,v.ar)}</div>`;
       });
       h+=`<div class="card fade"><div class="numb">${it.n}</div><div class="cols">${cols}</div><div class="mean" style="font-size:${mSize(it.id)}px">${esc(it.id)}</div></div>`;
       window._al=autoList;
